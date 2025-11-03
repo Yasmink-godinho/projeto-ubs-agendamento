@@ -11,11 +11,11 @@ Sistema CRUD em Python para agendamento em uma Unidade Básica de Saúde (UBS). 
 * **Líder da Equipe:** [Seu Nome Aqui - Yasmin Karolina]
 
 ### Alunos do Grupo (Membros)
-1.  **Yasmin Karolina** (Dupla Consultas & Relatórios)
-2.  **Larissa** (Dupla Consultas & Relatórios)
-3.  **Diogo** (Dupla Pacientes)
-4.  **Thayna** (Dupla Pacientes)
-5.  **João** (Dupla Profissionais)
-6.  **Kézia** (Dupla Profissionais)
+1.  **Yasmin Karolina** 
+2.  **Larissa** 
+3.  **Diogo** 
+4.  **Thayna** 
+5.  **João** 
+6.  **Kézia** 
 
 ---
