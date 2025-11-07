@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4 fw-semibold">Agendar Nova Consulta</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form method="POST" class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">ID do Paciente</label>
+                <input type="number" name="id_paciente" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">ID do Profissional</label>
+                <input type="number" name="id_profissional" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Data</label>
+                <input type="date" name="data" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Hora</label>
+                <input type="time" name="hora" class="form-control" required>
+            </div>
+
+            <div class="col-12 mt-3">
+                <button class="btn btn-primary" type="submit">Agendar</button>
+                <a href="/consultas" class="btn btn-secondary">Voltar</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
