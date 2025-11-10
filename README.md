@@ -8,14 +8,14 @@ Sistema CRUD em Python para agendamento em uma Unidade Básica de Saúde (UBS). 
 
 ## 👥 Equipe do Projeto
 
-* **Líder da Equipe:** [Seu Nome Aqui - Yasmin Karolina]
+* **Líder da Equipe:** [Yasmin Karolina Silva de Moura Godinho]
 
 ### Alunos do Grupo (Membros)
-1.  **Yasmin Karolina** 
-2.  **Larissa** 
-3.  **Diogo** 
-4.  **Thayna** 
-5.  **João** 
-6.  **Kézia** 
+1.  **Yasmin Karolina Silva de Moura Godinho** 
+2.  **Larissa Morais do Nascimento Lira** 
+3.  **Diogo Felipe da Silva Alcelino** 
+4.  **Thayna Verçosa de Andrade** 
+5.  **João Rafael Morato Uchoa Cavalcanti** 
+6.  **Kézia de Aguiar Albuquerque** 
 
 ---
