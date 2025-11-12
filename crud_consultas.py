@@ -7,7 +7,7 @@ import datetime
 # --- FUNÇÃO 1: CREATE (Adicionar) ---
 def agendar_consulta():
     """Adiciona uma nova consulta ao banco de dados."""
-    print("\n-   -- Agendar Nova Consulta ---")
+    print("\n--- Agendar Nova Consulta ---")
     
     try:
         # 1. Obter dados do usuário
