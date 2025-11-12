@@ -14,21 +14,21 @@ def exibir_menu_relatorios():
         print("3. Quantidade de consultas canceladas")
         print("4. Relatório por profissional (histórico de atendimentos)")
         print("5. Relatório por data (consultas do dia)")
-        print("6. Voltar ao menu principal")
+        print("0. Voltar ao menu principal")
 
         opcao = input("Escolha uma opção: ")
 
-        if opcao == "1":
+        if (opcao == "1"):
             quantidade_profissionais()
-        elif opcao == "2":
+        elif (opcao == "2"):
             quantidade_consultas_realizadas()
-        elif opcao == "3":
+        elif (opcao == "3"):
             quantidade_consultas_canceladas()
-        elif opcao == "4":
+        elif (opcao == "4"):
             relatorio_por_profissional()
-        elif opcao == "5":
+        elif (opcao == "5"):
             relatorio_por_data()
-        elif opcao == "6":
+        elif (opcao == "0"):
             print("Voltando ao menu principal...")
             break
         else:

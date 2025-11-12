@@ -7,7 +7,7 @@ from profissionais import (
 
 def exibir_menu_profissionais():
     while True:
-        print("\n===== Menu de Profissionais =====")
+        print("\n===== MENU DE PROFISSIONAIS =====")
         print("1. Adicionar Profissional")
         print("2. Listar Profissionais")
         print("3. Atualizar Profissional")
@@ -16,15 +16,15 @@ def exibir_menu_profissionais():
 
         opcao = input("Escolha uma opção: ")
 
-        if opcao == "1":
+        if (opcao == "1"):
             adicionar_profissional()
-        elif opcao == "2":
+        elif (opcao == "2"):
             listar_profissionais()
-        elif opcao == "3":
+        elif (opcao == "3"):
             atualizar_profissional()
-        elif opcao == "4":
+        elif (opcao == "4"):
             deletar_profissional()
-        elif opcao == "0":
+        elif (opcao == "0"):
             break
         else:
             print("⚠️ Opção inválida! Tente novamente.")
