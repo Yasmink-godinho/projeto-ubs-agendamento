@@ -1,4 +1,4 @@
-from crud_pacientes import (
+from pacientes import (
     adicionar_paciente,
     listar_pacientes,
     atualizar_paciente,
@@ -7,7 +7,7 @@ from crud_pacientes import (
 
 def exibir_menu_pacientes():
     while True:
-        print("\n===== 🧑‍⚕️ Menu de Pacientes =====")
+        print("\n===== Menu de Pacientes =====")
         print("1. Adicionar Paciente")
         print("2. Listar Pacientes")
         print("3. Atualizar Paciente")

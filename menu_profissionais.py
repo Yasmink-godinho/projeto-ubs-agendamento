@@ -1,4 +1,4 @@
-from crud_profissionais import (
+from profissionais import (
     adicionar_profissional,
     listar_profissionais,
     atualizar_profissional,
@@ -7,7 +7,7 @@ from crud_profissionais import (
 
 def exibir_menu_profissionais():
     while True:
-        print("\n===== 👨‍⚕️ Menu de Profissionais =====")
+        print("\n===== Menu de Profissionais =====")
         print("1. Adicionar Profissional")
         print("2. Listar Profissionais")
         print("3. Atualizar Profissional")

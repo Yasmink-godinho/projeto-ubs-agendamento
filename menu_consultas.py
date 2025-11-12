@@ -1,19 +1,19 @@
-from crud_consultas import(
+from consultas import(
     agendar_consulta,
     cancelar_consulta,
     listar_consultas_agendadas
 )
-from crud_pacientes import (
+from pacientes import (
     listar_pacientes
 )
 
-from crud_profissionais import (
+from profissionais import (
     listar_profissionais
 )
 
 def exibir_menu_consultas():
      while True:
-        print("\n===== 🗓️ Menu de Consultas =====")
+        print("\n===== Menu de Consultas =====")
         print("1. Agendar nova consulta")
         print("2. Cancelar consulta")
         print("3. Listar consultas agendadas")
