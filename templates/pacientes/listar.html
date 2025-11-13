@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-semibold">Pacientes</h2>
+  <a href="/pacientes/novo" class="btn btn-primary">Novo Paciente</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th>ID</th><th>Nome</th><th>CPF</th><th>Data Nasc</th><th>Telefone</th><th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pacientes %}
+        <tr>
+          <td>{{ p['id'] }}</td>
+          <td>{{ p['nome_completo'] }}</td>
+          <td>{{ p['cpf'] }}</td>
+          <td>{{ p['data_nascimento'] or '-' }}</td>
+          <td>{{ p['telefone'] or '-' }}</td>
+          <td>
+            <a href="/pacientes/editar/{{ p['id'] }}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="/pacientes/excluir/{{ p['id'] }}" class="btn btn-sm btn-danger">Excluir</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold text-danger">Excluir Profissional</h2>
+
+<div class="alert alert-danger">
+    <p>Tem certeza que deseja excluir o profissional <strong>{{ profissional['nome_completo'] }}</strong>?</p>
+</div>
+
+<form method="POST">
+    <button class="btn btn-danger">Confirmar Exclusão</button>
+    <a href="{{ url_for('listar_profissionais') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+{% endblock %}

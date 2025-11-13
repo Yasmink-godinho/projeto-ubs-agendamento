@@ -1,15 +1,26 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="p-5 mb-4 bg-white rounded-3 shadow">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Sistema de Agendamentos da UBS</h1>
-        <p class="col-md-8 fs-5">
-            Bem-vindo ao sistema. Aqui você pode gerenciar consultas, profissionais e pacientes.
-            Escolha uma opção no menu acima.
-        </p>
-        <a href="/consultas" class="btn btn-primary btn-lg">Ver Consultas</a>
-        <a href="/consultas/agendar" class="btn btn-outline-primary btn-lg">Agendar Consulta</a>
+
+<div class="container py-5 text-center">
+    <h1 class="fw-bold mb-4 text-primary">Sistema de Agendamento - UBS</h1>
+    <p class="lead mb-5">
+        Bem-vindo ao sistema de gerenciamento de consultas da Unidade Básica de Saúde.<br>
+        Aqui você pode gerenciar pacientes, profissionais e agendamentos de forma simples e rápida.
+    </p>
+
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+        <a href="{{ url_for('listar_consultas') }}" class="btn btn-lg btn-outline-primary px-4">
+            <i class="bi bi-calendar-check me-2"></i> Consultas
+        </a>
+
+        <a href="{{ url_for('listar_pacientes') }}" class="btn btn-lg btn-outline-success px-4">
+            <i class="bi bi-people me-2"></i> Pacientes
+        </a>
+
+        <a href="{{ url_for('listar_profissionais') }}" class="btn btn-lg btn-outline-warning px-4">
+            <i class="bi bi-person-badge me-2"></i> Profissionais
+        </a>
     </div>
 </div>
+
 {% endblock %}
