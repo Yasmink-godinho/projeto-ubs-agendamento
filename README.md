@@ -12,7 +12,7 @@ Sistema CRUD em Python para agendamento em uma Unidade Básica de Saúde (UBS). 
 
 ### Alunos do Grupo (Membros)
 1.  **Yasmin Karolina Silva de Moura Godinho** 
-2.  **Larissa** 
+2.  **Larissa Morais do Nascimento Lira** 
 3.  **Diogo Felipe da Silva Alcelino** 
 4.  **Thayna Verçosa de Andrade** 
 5.  **João Rafael Morato Uchoa Cavalcanti** 
