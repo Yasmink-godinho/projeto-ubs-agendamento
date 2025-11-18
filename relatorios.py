@@ -24,7 +24,7 @@ def quantidade_profissionais():
     
     finally:
         if conn:
-            conn.close() 
+            conn.close() # Fecha a conexão com o banco de dados.
 
 # 2. Quantidade de consultas realizadas
 def quantidade_consultas_realizadas():
