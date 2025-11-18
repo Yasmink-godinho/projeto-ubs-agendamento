@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Menu de Profissionais</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+        <div class="list-group list-group-flush">
+            <a href="{{ url_for('novo_profissional') }}" class="list-group-item list-group-item-action">
+                 Cadastrar novo profissional
+            </a>
+
+            <a href="{{ url_for('listar_profissionais') }}" class="list-group-item list-group-item-action">
+                 Listar profissionais
+            </a>
+
+            <a href="{{ url_for('index') }}" class="list-group-item list-group-item-action text-danger">
+                   Voltar ao menu principal
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

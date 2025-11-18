@@ -3,38 +3,50 @@
 {% block content %}
 <h2 class="mb-4 fw-semibold">Agendar Nova Consulta</h2>
 
-<div class="card shadow-sm">
+<div class="card card-ubs">
     <div class="card-body">
-
         <form method="POST" class="row g-3">
 
             <div class="col-md-6">
-                <label class="form-label">ID do Paciente</label>
-                <input type="number" name="id_paciente" class="form-control" required>
+                <label class="form-label">Paciente</label>
+                <select name="id_paciente" class="form-select" required>
+                    <option value="" disabled selected>Selecione o paciente</option>
+                    {% for p in pacientes %}
+                    <option value="{{ p[0] }}">{{ p[0] }} - {{ p[1] }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">ID do Profissional</label>
-                <input type="number" name="id_profissional" class="form-control" required>
+                <label class="form-label">Profissional</label>
+                <select name="id_profissional" class="form-select" required>
+                    <option value="" disabled selected>Selecione o profissional</option>
+                    {% for pr in profissionais %}
+                    <option value="{{ pr[0] }}">{{ pr[0] }} - {{ pr[1] }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Data</label>
+                <label class="form-label">Data da consulta</label>
                 <input type="date" name="data" class="form-control" required>
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Hora</label>
+                <label class="form-label">Horário</label>
                 <input type="time" name="hora" class="form-control" required>
             </div>
 
             <div class="col-12 mt-3">
-                <button class="btn btn-primary" type="submit">Agendar</button>
-                <a href="/consultas" class="btn btn-secondary">Voltar</a>
+                <button class="btn btn-ubs-primary" type="submit">
+                     Salvar agendamento
+                </button>
+                <a href="{{ url_for('menu_consultas') }}" class="btn btn-secondary ms-2">
+                    Cancelar
+                </a>
             </div>
 
         </form>
-
     </div>
 </div>
 

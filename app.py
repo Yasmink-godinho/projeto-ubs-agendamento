@@ -3,40 +3,67 @@ from database import conectar
 
 app = Flask(__name__)
 
-# ------------------- Página inicial -------------------
+# =============================== PÁGINA INICIAL ===============================
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# ------------------- Consultas -------------------
+# =============================== CONSULTAS ===============================
 @app.route('/consultas')
 def listar_consultas():
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM consultas")
+    cursor.execute("""
+        SELECT c.id, p.nome_completo, pr.nome_completo, c.data_hora, c.status
+        FROM consultas c
+        JOIN pacientes p ON p.id = c.id_paciente
+        JOIN profissionais pr ON pr.id = c.id_profissional
+        ORDER BY c.data_hora DESC
+    """)
     consultas = cursor.fetchall()
     conn.close()
     return render_template('consultas/listar.html', consultas=consultas)
 
+
 @app.route('/consultas/agendar', methods=['GET', 'POST'])
 def agendar_consulta():
-    if request.method == 'POST':
-        paciente_id = request.form['paciente_id']
-        profissional_id = request.form['profissional_id']
-        data_consulta = request.form['data_consulta']
-        hora_consulta = request.form['hora_consulta']
+    conn = conectar()
+    cursor = conn.cursor()
 
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO consultas (paciente_id, profissional_id, data_consulta, hora_consulta) VALUES (?, ?, ?, ?)",
-            (paciente_id, profissional_id, data_consulta, hora_consulta)
-        )
+    if request.method == 'POST':
+        id_paciente = request.form['id_paciente']
+        id_profissional = request.form['id_profissional']
+
+        # nomes batendo com o formulário HTML
+        data = request.form['data']
+        hora = request.form['hora']
+
+        # monta o datetime no formato YYYY-MM-DD HH:MM:SS
+        data_hora = f"{data} {hora}:00"
+
+        cursor.execute("""
+            INSERT INTO consultas (id_paciente, id_profissional, data_hora, status)
+            VALUES (?, ?, ?, 'agendada')
+        """, (id_paciente, id_profissional, data_hora))
+
         conn.commit()
         conn.close()
         return redirect(url_for('listar_consultas'))
 
-    return render_template('consultas/agendar.html')
+    # GET: buscar pacientes e profissionais para o formulário
+    cursor.execute("SELECT id, nome_completo FROM pacientes")
+    pacientes = cursor.fetchall()
+
+    cursor.execute("SELECT id, nome_completo FROM profissionais")
+    profissionais = cursor.fetchall()
+
+    conn.close()
+    return render_template(
+        'consultas/agendar.html',
+        pacientes=pacientes,
+        profissionais=profissionais
+    )
+
 
 @app.route('/consultas/cancelar/<int:id>', methods=['GET', 'POST'])
 def cancelar_consulta(id):
@@ -44,7 +71,7 @@ def cancelar_consulta(id):
     cursor = conn.cursor()
 
     if request.method == 'POST':
-        cursor.execute("DELETE FROM consultas WHERE id = ?", (id,))
+        cursor.execute("UPDATE consultas SET status = 'cancelada' WHERE id = ?", (id,))
         conn.commit()
         conn.close()
         return redirect(url_for('listar_consultas'))
@@ -55,8 +82,7 @@ def cancelar_consulta(id):
 
     return render_template('consultas/cancelar.html', consulta=consulta)
 
-
-# ------------------- Pacientes (para criar em seguida) -------------------
+# =============================== PACIENTES ===============================
 @app.route('/pacientes')
 def listar_pacientes():
     conn = conectar()
@@ -66,39 +92,46 @@ def listar_pacientes():
     conn.close()
     return render_template('pacientes/listar.html', pacientes=pacientes)
 
+
 @app.route('/pacientes/novo', methods=['GET', 'POST'])
 def novo_paciente():
     if request.method == 'POST':
-        nome_completo = request.form['nome_completo']
+        nome = request.form['nome_completo']
         cpf = request.form['cpf']
-        data_nascimento = request.form.get('data_nascimento')
+        nasc = request.form.get('data_nascimento')
         telefone = request.form.get('telefone')
 
         conn = conectar()
         cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO pacientes (nome_completo, cpf, data_nascimento, telefone) VALUES (?, ?, ?, ?)",
-            (nome_completo, cpf, data_nascimento, telefone)
-        )
+        cursor.execute("""
+            INSERT INTO pacientes (nome_completo, cpf, data_nascimento, telefone)
+            VALUES (?, ?, ?, ?)
+        """, (nome, cpf, nasc, telefone))
+
         conn.commit()
         conn.close()
         return redirect(url_for('listar_pacientes'))
 
     return render_template('pacientes/criar.html')
 
+
 @app.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
 def editar_paciente(id):
     conn = conectar()
     cursor = conn.cursor()
+
     if request.method == 'POST':
-        nome_completo = request.form['nome_completo']
+        nome = request.form['nome_completo']
         cpf = request.form['cpf']
-        data_nascimento = request.form.get('data_nascimento')
+        nasc = request.form.get('data_nascimento')
         telefone = request.form.get('telefone')
 
         cursor.execute("""
-            UPDATE pacientes SET nome_completo = ?, cpf = ?, data_nascimento = ?, telefone = ? WHERE id = ?
-        """, (nome_completo, cpf, data_nascimento, telefone, id))
+            UPDATE pacientes
+            SET nome_completo=?, cpf=?, data_nascimento=?, telefone=?
+            WHERE id=?
+        """, (nome, cpf, nasc, telefone, id))
+
         conn.commit()
         conn.close()
         return redirect(url_for('listar_pacientes'))
@@ -106,8 +139,8 @@ def editar_paciente(id):
     cursor.execute("SELECT * FROM pacientes WHERE id = ?", (id,))
     paciente = cursor.fetchone()
     conn.close()
-
     return render_template('pacientes/editar.html', paciente=paciente)
+
 
 @app.route('/pacientes/excluir/<int:id>', methods=['GET', 'POST'])
 def excluir_paciente(id):
@@ -120,18 +153,12 @@ def excluir_paciente(id):
         conn.close()
         return redirect(url_for('listar_pacientes'))
 
-    # Mostrar página de confirmação antes de excluir
     cursor.execute("SELECT * FROM pacientes WHERE id = ?", (id,))
     paciente = cursor.fetchone()
     conn.close()
-
     return render_template('pacientes/excluir.html', paciente=paciente)
 
-
-
-
-
-# ------------------- Profissionais (para criar em seguida) -------------------
+# =============================== PROFISSIONAIS ===============================
 @app.route('/profissionais')
 def listar_profissionais():
     conn = conectar()
@@ -141,37 +168,44 @@ def listar_profissionais():
     conn.close()
     return render_template('profissionais/listar.html', profissionais=profissionais)
 
+
 @app.route('/profissionais/novo', methods=['GET', 'POST'])
 def novo_profissional():
     if request.method == 'POST':
-        nome_completo = request.form['nome_completo']
+        nome = request.form['nome_completo']
         crm = request.form['crm']
-        especialidade = request.form['especialidade']
+        esp = request.form['especialidade']
 
         conn = conectar()
         cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO profissionais (nome_completo, crm, especialidade) VALUES (?, ?, ?)",
-            (nome_completo, crm, especialidade)
-        )
+        cursor.execute("""
+            INSERT INTO profissionais (nome_completo, crm, especialidade)
+            VALUES (?, ?, ?)
+        """, (nome, crm, esp))
+
         conn.commit()
         conn.close()
         return redirect(url_for('listar_profissionais'))
 
     return render_template('profissionais/criar.html')
 
+
 @app.route('/profissionais/editar/<int:id>', methods=['GET', 'POST'])
 def editar_profissional(id):
     conn = conectar()
     cursor = conn.cursor()
+
     if request.method == 'POST':
-        nome_completo = request.form['nome_completo']
+        nome = request.form['nome_completo']
         crm = request.form['crm']
-        especialidade = request.form['especialidade']
+        esp = request.form['especialidade']
 
         cursor.execute("""
-            UPDATE profissionais SET nome_completo = ?, crm = ?, especialidade = ? WHERE id = ?
-        """, (nome_completo, crm, especialidade, id))
+            UPDATE profissionais
+            SET nome_completo=?, crm=?, especialidade=?
+            WHERE id=?
+        """, (nome, crm, esp, id))
+
         conn.commit()
         conn.close()
         return redirect(url_for('listar_profissionais'))
@@ -179,8 +213,8 @@ def editar_profissional(id):
     cursor.execute("SELECT * FROM profissionais WHERE id = ?", (id,))
     profissional = cursor.fetchone()
     conn.close()
-
     return render_template('profissionais/editar.html', profissional=profissional)
+
 
 @app.route('/profissionais/excluir/<int:id>', methods=['GET', 'POST'])
 def excluir_profissional(id):
@@ -193,15 +227,120 @@ def excluir_profissional(id):
         conn.close()
         return redirect(url_for('listar_profissionais'))
 
-    # Mostra uma página de confirmação antes de excluir
     cursor.execute("SELECT * FROM profissionais WHERE id = ?", (id,))
     profissional = cursor.fetchone()
     conn.close()
-
     return render_template('profissionais/excluir.html', profissional=profissional)
 
+# =============================== MENUS ===============================
+@app.route('/pacientes/menu')
+def menu_pacientes():
+    return render_template('pacientes/menu.html')
 
 
-# ------------------- Executar o servidor -------------------
+@app.route('/profissionais/menu')
+def menu_profissionais():
+    return render_template('profissionais/menu.html')
+
+
+@app.route('/consultas/menu')
+def menu_consultas():
+    return render_template('consultas/menu.html')
+
+
+@app.route('/relatorios/menu')
+def menu_relatorios():
+    return render_template('relatorios/menu.html')
+
+# =============================== RELATÓRIOS ===============================
+@app.route('/relatorios/quantidade-profissionais')
+def quantidade_profissionais():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM profissionais")
+    total = cursor.fetchone()[0]
+    conn.close()
+    return render_template('relatorios/quantidade_profissionais.html', total=total)
+
+
+@app.route('/relatorios/consultas-realizadas')
+def consultas_realizadas():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM consultas WHERE status='agendada'")
+    total = cursor.fetchone()[0]
+    conn.close()
+    return render_template('relatorios/consultas_realizadas.html', total=total)
+
+
+@app.route('/relatorios/consultas-canceladas')
+def consultas_canceladas():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM consultas WHERE status='cancelada'")
+    total = cursor.fetchone()[0]
+    conn.close()
+    return render_template('relatorios/consultas_canceladas.html', total=total)
+
+
+@app.route('/relatorios/por-profissional', methods=['GET', 'POST'])
+def relatorio_por_profissional():
+    conn = conectar()
+    cursor = conn.cursor()
+
+    # ------------- SE FOR GET: mostrar formulário -------------
+    if request.method == 'GET':
+        cursor.execute("SELECT id, nome_completo FROM profissionais")
+        profissionais = cursor.fetchall()
+        conn.close()
+        return render_template('relatorios/filtrar_profissional.html', profissionais=profissionais)
+
+    # ------------- SE FOR POST: gerar relatório -------------
+    # nome do campo batendo com o <select name="id_profissional">
+    profissional_id = request.form.get("id_profissional")
+
+    cursor.execute("""
+        SELECT 
+            pr.nome_completo AS profissional,
+            DATE(c.data_hora) AS data,
+            TIME(c.data_hora) AS hora
+        FROM consultas c
+        JOIN profissionais pr ON pr.id = c.id_profissional
+        WHERE c.id_profissional = ?
+        ORDER BY c.data_hora DESC
+    """, (profissional_id,))
+
+    registros = cursor.fetchall()
+    conn.close()
+
+    return render_template('relatorios/por_profissional.html', registros=registros)
+
+
+@app.route('/relatorios/por-data', methods=['GET', 'POST'])
+def relatorio_por_data():
+    conn = conectar()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # garante que bate com o name= do input em filtrar_data.html
+        data = request.form.get("data_consulta")
+
+        cursor.execute("""
+            SELECT c.id, p.nome_completo, pr.nome_completo, c.data_hora, c.status
+            FROM consultas c
+            JOIN pacientes p ON p.id = c.id_paciente
+            JOIN profissionais pr ON pr.id = c.id_profissional
+            WHERE DATE(c.data_hora) = ?
+            ORDER BY c.data_hora
+        """, (data,))
+
+        consultas = cursor.fetchall()
+        conn.close()
+        return render_template('relatorios/relatorio_data.html', consultas=consultas, data=data)
+
+    conn.close()
+    return render_template('relatorios/filtrar_data.html')
+
+# =============================== EXECUTAR SERVIDOR ===============================
 if __name__ == '__main__':
     app.run(debug=True)

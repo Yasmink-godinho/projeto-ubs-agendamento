@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Consultas Agendadas</h2>
+
+<div class="card card-ubs">
+    <div class="card-body text-center">
+        <p class="mb-2 text-muted">Total de consultas com status <strong>agendada</strong>:</p>
+        <p class="display-4 fw-bold text-primary mb-0">{{ total }}</p>
+    </div>
+</div>
+
+<a href="{{ url_for('menu_relatorios') }}" class="btn btn-secondary mt-3">
+     Voltar ao menu de relatórios
+</a>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Menu de Consultas</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+        <div class="list-group list-group-flush">
+            <a href="{{ url_for('listar_consultas') }}" class="list-group-item list-group-item-action">
+                 Listar consultas agendadas
+            </a>
+
+            <a href="{{ url_for('agendar_consulta') }}" class="list-group-item list-group-item-action">
+                Agendar nova consulta
+            </a>
+
+            <a href="{{ url_for('menu_relatorios') }}" class="list-group-item list-group-item-action">
+                 Relatórios
+            </a>
+
+            <a href="{{ url_for('index') }}" class="list-group-item list-group-item-action text-danger">
+                   Voltar ao menu principal
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,31 +1,56 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="fw-semibold">Profissionais</h2>
-  <a href="/profissionais/novo" class="btn btn-primary">Novo Profissional</a>
+
+<h2 class="mb-4 fw-semibold">Profissionais de Saúde</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+
+        {% if profissionais %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>CRM</th>
+                        <th>Especialidade</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in profissionais %}
+                    <tr>
+                        <td>{{ p[0] }}</td>
+                        <td>{{ p[1] }}</td>
+                        <td>{{ p[2] }}</td>
+                        <td>{{ p[3] }}</td>
+                        <td class="text-end">
+                            <a href="{{ url_for('editar_profissional', id=p[0]) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                Editar
+                            </a>
+                            <a href="{{ url_for('excluir_profissional', id=p[0]) }}"
+                               class="btn btn-sm btn-outline-danger ms-1">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="alert alert-info mb-0">
+                Nenhum profissional cadastrado.
+            </div>
+        {% endif %}
+
+    </div>
 </div>
 
-<div class="card shadow-sm">
-  <div class="card-body">
-    <table class="table table-hover">
-      <thead class="table-primary">
-        <tr><th>ID</th><th>Nome</th><th>CRM</th><th>Especialidade</th><th>Ações</th></tr>
-      </thead>
-      <tbody>
-        {% for pr in profissionais %}
-        <tr>
-          <td>{{ pr['id'] }}</td>
-          <td>{{ pr['nome_completo'] }}</td>
-          <td>{{ pr['crm'] }}</td>
-          <td>{{ pr['especialidade'] or '-' }}</td>
-          <td>
-            <a href="/profissionais/editar/{{ pr['id'] }}" class="btn btn-sm btn-warning">Editar</a>
-            <a href="/profissionais/excluir/{{ pr['id'] }}" class="btn btn-sm btn-danger">Excluir</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
+<a href="{{ url_for('menu_profissionais') }}" class="btn btn-secondary mt-3">
+       Voltar ao menu de profissionais
+</a>
+
 {% endblock %}

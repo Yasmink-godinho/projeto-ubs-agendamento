@@ -3,53 +3,63 @@
 {% block content %}
 <h2 class="mb-4 fw-semibold">Consultas Agendadas</h2>
 
-<div class="card shadow-sm">
+<div class="card card-ubs">
     <div class="card-body">
 
-        <table class="table table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th>ID</th>
-                    <th>Paciente</th>
-                    <th>Profissional</th>
-                    <th>Data e Hora</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for c in consultas %}
-                <tr>
-                    <td>{{ c['id'] }}</td>
-                    <td>{{ c['paciente_nome'] }}</td>
-                    <td>{{ c['profissional_nome'] }}</td>
-                    <td>{{ c['data_hora'] }}</td>
-
-                    <td>
-                        {% if c["status"] == "agendada" %}
-                            <span class="badge bg-success">Agendada</span>
-                        {% else %}
-                            <span class="badge bg-secondary">Cancelada</span>
-                        {% endif %}
-                    </td>
-
-                    <td>
-                        {% if c["status"] == "agendada" %}
-                        <a href="/consultas/cancelar/{{ c['id'] }}" class="btn btn-sm btn-danger">
-                            Cancelar
-                        </a>
-                        {% else %}
-                        -
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
+        {% if consultas %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Paciente</th>
+                        <th>Profissional</th>
+                        <th>Data e Hora</th>
+                        <th>Status</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in consultas %}
+                    <tr>
+                        <td>{{ c[0] }}</td>
+                        <td>{{ c[1] }}</td>
+                        <td>{{ c[2] }}</td>
+                        <td>{{ c[3] }}</td>
+                        <td>
+                            {% if c[4] == 'agendada' %}
+                                <span class="badge badge-status-agendada text-white">Agendada</span>
+                            {% elif c[4] == 'cancelada' %}
+                                <span class="badge badge-status-cancelada text-white">Cancelada</span>
+                            {% else %}
+                                <span class="badge badge-status-padrao text-white">{{ c[4] }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            {% if c[4] != 'cancelada' %}
+                            <a href="{{ url_for('cancelar_consulta', id=c[0]) }}" class="btn btn-sm btn-outline-danger">
+                                Cancelar
+                            </a>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="alert alert-info mb-0">
+                Nenhuma consulta cadastrada até o momento.
+            </div>
+        {% endif %}
 
     </div>
 </div>
+
+<a href="{{ url_for('menu_consultas') }}" class="btn btn-secondary mt-3">
+       Voltar ao menu de consultas
+</a>
 
 {% endblock %}

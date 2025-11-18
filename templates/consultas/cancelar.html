@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Cancelar Consulta</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+
+        <p>Você está prestes a cancelar a seguinte consulta:</p>
+
+        <ul class="list-unstyled">
+            <li><strong>ID da consulta:</strong> {{ consulta[0] }}</li>
+            <li><strong>ID do paciente:</strong> {{ consulta[1] }}</li>
+            <li><strong>ID do profissional:</strong> {{ consulta[2] }}</li>
+            <li><strong>Data e hora:</strong> {{ consulta[3] }}</li>
+            <li><strong>Status atual:</strong> {{ consulta[4] }}</li>
+        </ul>
+
+        <div class="alert alert-warning mt-3">
+            Tem certeza que deseja <strong>cancelar</strong> esta consulta?
+        </div>
+
+        <form method="POST" class="mt-3">
+            <button type="submit" class="btn btn-danger">
+                Confirmar cancelamento
+            </button>
+            <a href="{{ url_for('listar_consultas') }}" class="btn btn-secondary ms-2">
+                Voltar sem cancelar
+            </a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
