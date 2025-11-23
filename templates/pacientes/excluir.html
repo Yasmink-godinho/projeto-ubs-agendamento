@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Excluir Paciente</h2>
+
+<div class="card card-ubs">
+  <div class="card-body">
+
+    <p>Tem certeza que deseja excluir o paciente abaixo?</p>
+
+    <ul class="list-unstyled">
+        <li><strong>ID:</strong> {{ paciente[0] }}</li>
+        <li><strong>Nome:</strong> {{ paciente[1] }}</li>
+        <li><strong>CPF:</strong> {{ paciente[2] }}</li>
+        <li><strong>Data de nascimento:</strong> {{ paciente[3] }}</li>
+        <li><strong>Telefone:</strong> {{ paciente[4] }}</li>
+    </ul>
+
+    <div class="alert alert-danger">
+        Esta ação não poderá ser desfeita.
+    </div>
+
+    <form method="POST" class="mt-3">
+        <button type="submit" class="btn btn-danger">
+            Excluir paciente
+        </button>
+        <a href="{{ url_for('listar_pacientes') }}" class="btn btn-secondary ms-2">
+            Cancelar
+        </a>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

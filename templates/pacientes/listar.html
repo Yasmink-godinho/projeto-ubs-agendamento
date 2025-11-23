@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Pacientes</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+
+        {% if pacientes %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome completo</th>
+                        <th>CPF</th>
+                        <th>Data de nascimento</th>
+                        <th>Telefone</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pacientes %}
+                    <tr>
+                        <td>{{ p[0] }}</td>
+                        <td>{{ p[1] }}</td>
+                        <td>{{ p[2] }}</td>
+                        <td>{{ p[3] }}</td>
+                        <td>{{ p[4] }}</td>
+                        <td class="text-end">
+                            <a href="{{ url_for('editar_paciente', id=p[0]) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                Editar
+                            </a>
+                            <a href="{{ url_for('excluir_paciente', id=p[0]) }}"
+                               class="btn btn-sm btn-outline-danger ms-1">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="alert alert-info mb-0">
+                Nenhum paciente cadastrado.
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<a href="{{ url_for('menu_pacientes') }}" class="btn btn-secondary mt-3">
+       Voltar ao menu de pacientes
+</a>
+
+{% endblock %}

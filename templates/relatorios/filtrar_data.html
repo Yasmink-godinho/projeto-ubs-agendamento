@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Consultas por Data</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+
+        <form method="POST" class="row g-3">
+
+            <div class="col-md-4">
+                <label class="form-label">Selecione a data</label>
+                <input type="date" name="data_consulta" class="form-control" required>
+            </div>
+
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-ubs-primary">
+                     Gerar relatório
+                </button>
+                <a href="{{ url_for('menu_relatorios') }}" class="btn btn-secondary ms-2">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

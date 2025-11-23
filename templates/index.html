@@ -1,15 +1,72 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="p-5 mb-4 bg-white rounded-3 shadow">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Sistema de Agendamentos da UBS</h1>
-        <p class="col-md-8 fs-5">
-            Bem-vindo ao sistema. Aqui você pode gerenciar consultas, profissionais e pacientes.
-            Escolha uma opção no menu acima.
+
+<div class="row mb-4">
+    <div class="col-12 text-center">
+        <h1 class="fw-bold mb-2">Bem-vindo à UBS</h1>
+        <p class="text-muted mb-0">
+            Sistema simples e organizado para cadastro de pacientes, profissionais e agendamento de consultas.
         </p>
-        <a href="/consultas" class="btn btn-primary btn-lg">Ver Consultas</a>
-        <a href="/consultas/agendar" class="btn btn-outline-primary btn-lg">Agendar Consulta</a>
     </div>
 </div>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card card-ubs h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Pacientes</h5>
+                <p class="text-muted mb-3">
+                    Cadastro, edição e consulta de pacientes da unidade.
+                </p>
+                <a href="{{ url_for('menu_pacientes') }}" class="btn btn-ubs-primary w-100">
+                     Acessar Pacientes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-ubs h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Profissionais</h5>
+                <p class="text-muted mb-3">
+                    Controle de médicos e demais profissionais de saúde.
+                </p>
+                <a href="{{ url_for('menu_profissionais') }}" class="btn btn-ubs-primary w-100">
+                     Acessar Profissionais
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-ubs h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Consultas</h5>
+                <p class="text-muted mb-3">
+                    Agendamento, listagem e cancelamento de consultas.
+                </p>
+                <a href="{{ url_for('menu_consultas') }}" class="btn btn-ubs-primary w-100">
+                     Acessar Consultas
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-ubs h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Relatórios</h5>
+                <p class="text-muted mb-3">
+                    Indicadores e contagens da unidade.
+                </p>
+                <a href="{{ url_for('menu_relatorios') }}" class="btn btn-outline-secondary w-100">
+                     Ver Relatórios
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

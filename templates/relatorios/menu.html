@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Menu de Relatórios</h2>
+
+<div class="card card-ubs">
+    <div class="card-body">
+        <div class="list-group list-group-flush">
+            <a href="{{ url_for('quantidade_profissionais') }}" class="list-group-item list-group-item-action">
+                  Quantidade de profissionais
+            </a>
+
+            <a href="{{ url_for('consultas_realizadas') }}" class="list-group-item list-group-item-action">
+                 Total de consultas agendadas
+            </a>
+
+            <a href="{{ url_for('consultas_canceladas') }}" class="list-group-item list-group-item-action">
+                 Total de consultas canceladas
+            </a>
+
+            <a href="{{ url_for('relatorio_por_profissional') }}" class="list-group-item list-group-item-action">
+                   Consultas por profissional
+            </a>
+
+            <a href="{{ url_for('relatorio_por_data') }}" class="list-group-item list-group-item-action">
+                 Consultas por data
+            </a>
+
+            <a href="{{ url_for('index') }}" class="list-group-item list-group-item-action text-danger">
+                   Voltar ao menu principal
+            </a>
+
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

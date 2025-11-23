@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Editar Profissional</h2>
+
+<div class="card card-ubs">
+  <div class="card-body">
+    <form method="POST" class="row g-3">
+
+      <div class="col-md-6">
+        <label class="form-label">Nome completo</label>
+        <input type="text" name="nome_completo" class="form-control" value="{{ profissional[1] }}" required>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">CRM</label>
+        <input type="text" name="crm" class="form-control" value="{{ profissional[2] }}" required>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Especialidade</label>
+        <input type="text" name="especialidade" class="form-control" value="{{ profissional[3] }}" required>
+      </div>
+
+      <div class="col-12 mt-3">
+        <button class="btn btn-ubs-primary" type="submit">
+            Salvar alterações
+        </button>
+        <a href="{{ url_for('listar_profissionais') }}" class="btn btn-secondary ms-2">
+          Cancelar
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}
