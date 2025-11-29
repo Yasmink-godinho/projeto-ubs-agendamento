@@ -27,4 +27,4 @@ def exibir_menu_profissionais():
         elif (opcao == "0"):
             break
         else:
-            print("⚠️ Opção inválida! Tente novamente.")
+            print("Opção inválida! Tente novamente.")

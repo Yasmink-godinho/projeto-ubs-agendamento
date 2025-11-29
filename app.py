@@ -3,12 +3,10 @@ from database import conectar
 
 app = Flask(__name__)
 
-# =============================== PÁGINA INICIAL ===============================
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# =============================== CONSULTAS ===============================
 @app.route('/consultas')
 def listar_consultas():
     conn = conectar()
@@ -34,11 +32,9 @@ def agendar_consulta():
         id_paciente = request.form['id_paciente']
         id_profissional = request.form['id_profissional']
 
-        # nomes batendo com o formulário HTML
         data = request.form['data']
         hora = request.form['hora']
 
-        # monta o datetime no formato YYYY-MM-DD HH:MM:SS
         data_hora = f"{data} {hora}:00"
 
         cursor.execute("""
@@ -50,7 +46,6 @@ def agendar_consulta():
         conn.close()
         return redirect(url_for('listar_consultas'))
 
-    # GET: buscar pacientes e profissionais para o formulário
     cursor.execute("SELECT id, nome_completo FROM pacientes")
     pacientes = cursor.fetchall()
 
@@ -82,7 +77,7 @@ def cancelar_consulta(id):
 
     return render_template('consultas/cancelar.html', consulta=consulta)
 
-# =============================== PACIENTES ===============================
+
 @app.route('/pacientes')
 def listar_pacientes():
     conn = conectar()
@@ -158,7 +153,7 @@ def excluir_paciente(id):
     conn.close()
     return render_template('pacientes/excluir.html', paciente=paciente)
 
-# =============================== PROFISSIONAIS ===============================
+
 @app.route('/profissionais')
 def listar_profissionais():
     conn = conectar()
@@ -232,7 +227,7 @@ def excluir_profissional(id):
     conn.close()
     return render_template('profissionais/excluir.html', profissional=profissional)
 
-# =============================== MENUS ===============================
+
 @app.route('/pacientes/menu')
 def menu_pacientes():
     return render_template('pacientes/menu.html')
@@ -252,7 +247,7 @@ def menu_consultas():
 def menu_relatorios():
     return render_template('relatorios/menu.html')
 
-# =============================== RELATÓRIOS ===============================
+
 @app.route('/relatorios/quantidade-profissionais')
 def quantidade_profissionais():
     conn = conectar()
@@ -288,15 +283,14 @@ def relatorio_por_profissional():
     conn = conectar()
     cursor = conn.cursor()
 
-    # ------------- SE FOR GET: mostrar formulário -------------
+
     if request.method == 'GET':
         cursor.execute("SELECT id, nome_completo FROM profissionais")
         profissionais = cursor.fetchall()
         conn.close()
         return render_template('relatorios/filtrar_profissional.html', profissionais=profissionais)
 
-    # ------------- SE FOR POST: gerar relatório -------------
-    # nome do campo batendo com o <select name="id_profissional">
+
     profissional_id = request.form.get("id_profissional")
 
     cursor.execute("""
@@ -322,7 +316,6 @@ def relatorio_por_data():
     cursor = conn.cursor()
 
     if request.method == 'POST':
-        # garante que bate com o name= do input em filtrar_data.html
         data = request.form.get("data_consulta")
 
         cursor.execute("""
@@ -341,6 +334,6 @@ def relatorio_por_data():
     conn.close()
     return render_template('relatorios/filtrar_data.html')
 
-# =============================== EXECUTAR SERVIDOR ===============================
+
 if __name__ == '__main__':
     app.run(debug=True)
